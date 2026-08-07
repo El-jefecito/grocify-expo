@@ -1,4 +1,5 @@
 import { GroceryItem, useGroceryStore } from "@/store/grocery-store";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
 
 const priorityPillBg = {
@@ -50,11 +51,33 @@ const PendingItemCard = ({ item }: { item: GroceryItem }) => {
 
           <View className="mt-3 flex-row items-center gap-2">
             <Pressable
-              className="mt-1 size-6 items-center justify-center rounded-full border-2 border-border bg-card"
-              onPress={() => togglePurchased(item.id)}
-            ></Pressable>
+              className="h-8 w-8 items-center justify-center rounded-xl border border-border bg-muted"
+              onPress={() =>
+                updateQuantity(item.id, Math.max(1, item.quantity - 1))
+              }
+            >
+              <FontAwesome6 name="minus" size={12} color="#3b5a4a" />
+            </Pressable>
+
+            <Text className="min-w-9 text-center text-base font-semibold text-foreground">
+              {item.quantity}
+            </Text>
+
+            <Pressable
+              className="h-8 w-8 items-center justify-center rounded-xl border border-border bg-muted"
+              onPress={() => updateQuantity(item.id, item.quantity + 1)}
+            >
+              <FontAwesome6 name="plus" size={12} color="#3b5a4a" />
+            </Pressable>
           </View>
         </View>
+
+        <Pressable
+          className="h-9 w-9 items-center justify-center rounded-xl bg-destructive"
+          onPress={() => removeItem(item.id)}
+        >
+          <FontAwesome6 name="trash" size={16} color="#d45f58" />
+        </Pressable>
       </View>
     </View>
   );
